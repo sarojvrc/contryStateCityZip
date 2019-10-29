@@ -1,0 +1,105 @@
+
+<html>
+    <head>
+        <title>Select Option JS</title>
+    </head>
+    <body>
+        <center>
+            <form name="myform" id="myForm">
+                <select id="countySel" size="1">
+                      <option value="" selected="selected">-- Select Country --</option>
+                  </select>
+                   <br>
+                  <br>
+                
+                  <select id="stateSel" size="1">
+                      <option value="" selected="selected">-- Select State--</option>
+                  </select>
+                  <br>
+                  <br>    
+                  <select id="citySel" size="1">
+                      <option value="" selected="selected">-- Select City--</option>
+                  </select>
+                  <br>
+                  <br>
+                  <select id="zipSel" size="1">
+                      <option value="" selected="selected">-- Select Zip--</option>
+                  </select>
+              </form>
+        </center>
+        <script>
+        
+            var countryStateInfo = {
+	            "USA": {"California": {"Los Angeles": ["90001", "90002", "90003", "90004"], "San Diego": ["92093", "92101"] },
+		        "Texas": { "Dallas": ["75201", "75202"], "Austin": ["73301", "73344"] }, 
+                "New Jersey": {"Atlantic City":["1201","12525","21521"]}
+                },
+
+	            "India": {
+		            "Odisha": {"Bhubaneswar": ["781005","751015"],"Cuttack" : ["752105", "752458"], "Berhampur" : ["720125","725452"] },
+		            "Telengana": {"Hyderabad" : ["500031", "500030","500035"], "Wrangal Urban" : ["510002", "510220"], "Wrangal Rural": 
+                    ["512201", "512012"] },
+                    "Bihar": {"Patna": ["452545","252452"],"Gaya" : ["752105", "752458"], "Bihar Sharif" : ["720125","725452"] },
+	            },
+                "Europe": {
+                    "Berlin": {"Munich":["254525","124525"], "Prague":["21542","125452"]},
+                    "Rome":{"Milan":["25452","254525"]},
+                    "London":{"Venice":["58458","548558","454525"]}
+                }
+            }
+
+
+            window.onload = function () {
+	
+	        var countySel = document.getElementById("countySel");
+	        var stateSel = document.getElementById("stateSel");	
+	        var citySel = document.getElementById("citySel");
+	        var zipSel = document.getElementById("zipSel");
+	
+	        for (var country in countryStateInfo) {
+		        countySel.options[countySel.options.length] = new Option(country, country);
+	        }
+	
+	        countySel.onchange = function () {
+		 
+		        stateSel.length = 1; 
+		        citySel.length = 1; 
+		        zipSel.length = 1; 
+		 
+		        if (this.selectedIndex < 1)
+			    return; 
+		 
+		        for (var state in countryStateInfo[this.value]) {
+			        stateSel.options[stateSel.options.length] = new Option(state, state);
+		        }
+	        }
+	
+	        stateSel.onchange = function () {		 
+		 
+		    citySel.length = 1; 
+		    zipSel.length = 1; 
+		 
+		    if (this.selectedIndex < 1)
+			return;
+		 
+		    for (var city in countryStateInfo[countySel.value][this.value]) {
+			citySel.options[citySel.options.length] = new Option(city, city);
+		        }
+	        }
+	
+	        citySel.onchange = function () {
+		    zipSel.length = 1; 
+		
+		    if (this.selectedIndex < 1)
+			return; 
+		
+		    var zips = countryStateInfo[countySel.value][stateSel.value][this.value];
+		    for (var i = 0; i < zips.length; i++) {
+			zipSel.options[zipSel.options.length] = new Option(zips[i], zips[i]);
+		        }
+	        }	
+            }
+        
+        </script>
+    </body>
+</html>
